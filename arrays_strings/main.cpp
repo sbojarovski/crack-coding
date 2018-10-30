@@ -9,6 +9,7 @@
 int main(int argc, char ** argv){
 //    test_unique_checks();
     char input[10] = "abc def  ";
-    replace_space_substr(input, "%20");
+    replace_space_substr(input);
+    std::cout << input << std::endl;
     return 0;
 }
