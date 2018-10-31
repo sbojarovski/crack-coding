@@ -21,11 +21,13 @@ void replace_space_substr(char * input){
     }
     if (!i)
         return;
-    num_spaces = num_spaces / sub_size;
-    int offset = num_spaces * (sub_size - 1);
+    int real_spaces = num_spaces / sub_size;
+    int padding_size = real_spaces * (sub_size - 1);
+    if (num_spaces - real_spaces != padding_size)
+        return;
+    int offset = real_spaces * (sub_size - 1);
 
-    i--;
-    while(input[i] == ' '){i--;}
+    i -= padding_size + 1;
 
     while(i >= 0){
         input[i + offset] = input[i];
@@ -33,8 +35,8 @@ void replace_space_substr(char * input){
             input[i + offset] = '0';
             input[i + offset - 1] = '2';
             input[i + offset - 2] = '%';
-            num_spaces--;
-            offset = num_spaces * (sub_size - 1);
+            real_spaces--;
+            offset = real_spaces * (sub_size - 1);
         }
         i--;
     }
@@ -43,11 +45,11 @@ void replace_space_substr(char * input){
 void test_replace_substring(){
     std::vector<std::string> inputs = {
             "ab c  def      ",
-//            " ", impossible to do inplace, no distinction between space and padding
+            "   ",
             "",
             " b  ",
             "  b    ",
-            "a b  c   d    e                     ",
+            "a b  c   d    e                    ",
             "    a   b  c d                    "
     };
     for (auto & s : inputs) {
